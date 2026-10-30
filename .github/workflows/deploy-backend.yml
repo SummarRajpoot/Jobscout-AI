@@ -1,7 +1,10 @@
-name: Sync to Hugging Face hub
+﻿name: Sync Backend to Hugging Face hub
 on:
   push:
     branches: [main]
+    paths:
+      - "Backend/**"
+      - ".github/workflows/deploy-backend.yml"
   workflow_dispatch:
 
 jobs:
@@ -20,7 +23,7 @@ jobs:
           else
             echo "HF_TOKEN is set. Proceeding..."
           fi
-      - name: Push to hub
+      - name: Push Backend folder to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
@@ -28,4 +31,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global credential.helper store
           echo "https://ranasummar0:$HF_TOKEN@huggingface.co" > ~/.git-credentials
-          git push --force https://huggingface.co/spaces/ranasummar0/JobScout-AI.git main:main
+          git subtree split --prefix=Backend -b hf-deploy
+          git push --force https://huggingface.co/spaces/ranasummar0/JobScout-AI.git hf-deploy:main
