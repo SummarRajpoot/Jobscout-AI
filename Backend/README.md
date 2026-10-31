@@ -12,3 +12,5 @@ pinned: false
 
 Dockerized FastAPI backend for JobScout AI, configured for Hugging Face Spaces.
 
+Deploy test: backend
+
